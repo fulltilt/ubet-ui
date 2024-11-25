@@ -24,7 +24,7 @@ const BetUIComponent = () => {
   const { publicKey, sendTransaction } = useWallet();
   const { toast } = useToast();
 
-  const { data: betData, isLoading: isBetLoading } = useQuery<BetType>({
+  const { data: betData, isLoading: isBetLoading } = useQuery<BetType[]>({
     queryKey: ["getBet"],
     queryFn: () => getBet(id as string),
   });
@@ -35,6 +35,7 @@ const BetUIComponent = () => {
   });
 
   if (isBetLoading) return <div>Loading...</div>;
+  // if (!betData?.length) return
 
   const {
     title,
@@ -48,12 +49,12 @@ const BetUIComponent = () => {
     description,
     user1_txn_sig,
     user2_txn_sig,
-  } = betData[0];
+  } = betData?.[0] ?? {};
 
   const onSubmitBet = async () => {
     if (!USDToSOL) return;
 
-    const publicKey1 = new PublicKey(user_id1);
+    const publicKey1 = new PublicKey(user_id1!);
     const publicKey2 = new PublicKey(publicKey?.toBase58() as string);
 
     const user1Balance =
@@ -61,7 +62,7 @@ const BetUIComponent = () => {
     const user2Balance =
       (await connection.getBalance(publicKey2)) / LAMPORTS_PER_SOL;
 
-    const requiredSOL = truncateByDecimalPlace(amount / USDToSOL, 2);
+    const requiredSOL = truncateByDecimalPlace(amount! / USDToSOL, 2);
 
     if (user1Balance < requiredSOL)
       toast({
@@ -73,7 +74,9 @@ const BetUIComponent = () => {
       });
 
     try {
-      const lamportsToSend = Math.ceil((amount / USDToSOL!) * LAMPORTS_PER_SOL);
+      const lamportsToSend = Math.ceil(
+        (amount! / USDToSOL!) * LAMPORTS_PER_SOL
+      );
       const transaction = new Transaction().add(
         SystemProgram.transfer({
           fromPubkey: publicKey!,
@@ -127,11 +130,11 @@ const BetUIComponent = () => {
         <h1 className="font-bold text-3xl">{title}</h1>
         <p>{description}</p>
         <h3 className="text-lg font-semibold mt-8">Bet Ends:</h3>
-        <p>{new Date(end_at).toLocaleString()}</p>
+        <p>{new Date(end_at!).toLocaleString()}</p>
         <h3 className="text-lg font-semibold mt-8">Amount:</h3>
         <p>
           ${amount} (
-          {USDToSOL ? `${truncateByDecimalPlace(amount / USDToSOL, 2)}` : ""}{" "}
+          {USDToSOL ? `${truncateByDecimalPlace(amount! / USDToSOL, 2)}` : ""}{" "}
           SOL)
         </p>
       </div>
@@ -141,12 +144,12 @@ const BetUIComponent = () => {
         <div className="flex items-center space-x-4 mb-2">
           <Avatar>
             <AvatarImage src={""} alt={user_id1} />
-            <AvatarFallback>{user_id1.charAt(0)}</AvatarFallback>
+            <AvatarFallback>{user_id1?.charAt(0)}</AvatarFallback>
           </Avatar>
           <div>
             <p className="font-medium">{user_id1}</p>
             <p className="text-sm text-gray-400">
-              Bet: {capitalizeWord(user1_bet)}{" "}
+              Bet: {capitalizeWord(user1_bet!)}{" "}
               <Link
                 href={`https://explorer.solana.com/tx/${user1_txn_sig}?cluster=devnet`}
                 target="_blank"
@@ -166,7 +169,7 @@ const BetUIComponent = () => {
             <div>
               <p className="font-medium">{user_id2}</p>
               <p className="text-sm text-gray-400">
-                Bet: {capitalizeWord(user2_bet)}{" "}
+                Bet: {capitalizeWord(user2_bet!)}{" "}
                 <Link
                   href={`https://explorer.solana.com/tx/${user2_txn_sig}?cluster=devnet`}
                   target="_blank"

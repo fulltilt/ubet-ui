@@ -13,6 +13,8 @@ export const betSchema = z.object({
   user1_bet: z.string(),
   user2_bet: z.string(),
   winner: z.string(),
+  user1_txn_sig: z.string(),
+  user2_txn_sig: z.string(),
 });
 
 export type BetType = z.infer<typeof betSchema>;
