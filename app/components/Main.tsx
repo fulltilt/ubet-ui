@@ -149,7 +149,7 @@ const Main = () => {
               key={idx}
               bet={bet}
               publicKey={publicKey?.toBase58()}
-              refetchGetBets={refetchGetBets}
+              // refetchGetBets={refetchGetBets}
             />
           ))
         )}
