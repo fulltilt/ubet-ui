@@ -24,11 +24,7 @@ const BetUIComponent = () => {
   const { publicKey, sendTransaction } = useWallet();
   const { toast } = useToast();
 
-  const {
-    data: betData,
-    error: betError,
-    isLoading: isBetLoading,
-  } = useQuery<BetType>({
+  const { data: betData, isLoading: isBetLoading } = useQuery<BetType>({
     queryKey: ["getBet"],
     queryFn: () => getBet(id as string),
   });
@@ -48,7 +44,7 @@ const BetUIComponent = () => {
     user1_bet,
     user_id2,
     user2_bet,
-    winner,
+    // winner,
     description,
     user1_txn_sig,
     user2_txn_sig,
@@ -95,7 +91,7 @@ const BetUIComponent = () => {
         minContextSlot,
       });
 
-      const transactionConfirmation = await connection.confirmTransaction({
+      await connection.confirmTransaction({
         blockhash,
         lastValidBlockHeight,
         signature,
@@ -112,7 +108,7 @@ const BetUIComponent = () => {
         });
       }
 
-      const res = await response.json();
+      await response.json();
 
       toast({
         title: "Successfully Accepted Bet!",

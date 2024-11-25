@@ -4,7 +4,7 @@ import { BetType } from "../types";
 import { BetCard } from "./BetCard";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useQuery } from "@tanstack/react-query";
-import { createBet, createTransaction, getBets, getUSDToSOL } from "../api";
+import { createBet, getBets, getUSDToSOL } from "../api";
 import {
   Dialog,
   DialogContent,
@@ -69,7 +69,6 @@ const Main = () => {
 
   const {
     data: betsData,
-    error: betsError,
     isLoading: isBetsLoading,
     refetch: refetchGetBets,
   } = useQuery<BetType[]>({
@@ -103,14 +102,14 @@ const Main = () => {
         minContextSlot,
       });
 
-      const transactionConfirmation = await connection.confirmTransaction({
+      await connection.confirmTransaction({
         blockhash,
         lastValidBlockHeight,
         signature,
       });
 
-      const response = await createBet(
-        publicKey?.toString()!,
+      await createBet(
+        publicKey?.toString() ?? "",
         title,
         description,
         amount,

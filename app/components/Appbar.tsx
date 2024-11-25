@@ -39,9 +39,7 @@ export const Appbar = () => {
     ).toUTCString()}`;
 
     const encodedMessage = new TextEncoder().encode(message);
-    let signature = await signMessage?.(encodedMessage);
-    // console.log(signature);
-    // console.log(publicKey);
+    const signature = await signMessage?.(encodedMessage);
 
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/signin`,
@@ -64,7 +62,7 @@ export const Appbar = () => {
 
   useEffect(() => {
     signAndSend();
-  }, [publicKey]);
+  }, [publicKey, signAndSend]);
 
   return (
     <>

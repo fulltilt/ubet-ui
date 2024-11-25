@@ -17,78 +17,81 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useToast } from "@/hooks/use-toast";
+// import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { BetType } from "../types";
 import { useState } from "react";
 import Link from "next/link";
-import { acceptBet } from "../api";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import {
-  LAMPORTS_PER_SOL,
-  PublicKey,
-  SystemProgram,
-  Transaction,
-} from "@solana/web3.js";
+// import { acceptBet } from "../api";
+// import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+// import {
+//   LAMPORTS_PER_SOL,
+//   PublicKey,
+//   SystemProgram,
+//   Transaction,
+// } from "@solana/web3.js";
+// import { acceptBet } from "../api";
 
 export function BetCard({
   bet,
   publicKey,
-  refetchGetBets,
-}: {
+}: // refetchGetBets,
+{
   bet: BetType;
   publicKey: string | undefined;
-  refetchGetBets: () => void;
+  // refetchGetBets: () => void;
 }) {
-  const { toast } = useToast();
-  const { sendTransaction } = useWallet();
-  const { connection } = useConnection();
+  // const { toast } = useToast();
+  // const { sendTransaction } = useWallet();
+  // const { connection } = useConnection();
 
   const [openDialog, setOpenDialog] = useState(false);
-  const [messageApproved, setMessageApproved] = useState(true);
+  const [messageApproved] = useState(true);
 
-  const submitBet = async () => {
-    if (!publicKey) {
-      setOpenDialog(true);
-      return;
-    }
+  // const submitBet = async () => {
+  //   return;
+  //   if (!publicKey) {
+  //     setOpenDialog(true);
+  //     return;
+  //   }
 
-    try {
-      // const lamportsToSend = Math.ceil((amount / USDToSOL!) * LAMPORTS_PER_SOL);
-      // const transaction = new Transaction().add(
-      //   SystemProgram.transfer({
-      //     fromPubkey: publicKey!,
-      //     toPubkey: new PublicKey(process.env.NEXT_PUBLIC_PARENT_WALLET!),
-      //     lamports: lamportsToSend,
-      //   })
-      // );
-      // const {
-      //   context: { slot: minContextSlot },
-      //   value: { blockhash, lastValidBlockHeight },
-      // } = await connection.getLatestBlockhashAndContext();
-      // const signature = await sendTransaction(transaction, connection, {
-      //   minContextSlot,
-      // });
-      // const transactionConfirmation = await connection.confirmTransaction({
-      //   blockhash,
-      //   lastValidBlockHeight,
-      //   signature,
-      // });
-      // const response = await acceptBet(bet.id, publicKey, signature);
-      // if (response.status === 403) {
-      //   setMessageApproved(false);
-      //   setOpenDialog(true);
-      // }
-      // setMessageApproved(true);
-      // refetchGetBets();
-      // const res = await response.json();
-      // toast({
-      //   title: "Successfully Accepted Bet!",
-      // });
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  //   try {
+  //     const lamportsToSend = Math.ceil((amount / USDToSOL!) * LAMPORTS_PER_SOL);
+  //     const transaction = new Transaction().add(
+  //       SystemProgram.transfer({
+  //         fromPubkey: publicKey!,
+  //         toPubkey: new PublicKey(process.env.NEXT_PUBLIC_PARENT_WALLET!),
+  //         lamports: lamportsToSend,
+  //       })
+  //     );
+  //     const {
+  //       context: { slot: minContextSlot },
+  //       value: { blockhash, lastValidBlockHeight },
+  //     } = await connection.getLatestBlockhashAndContext();
+  //     const signature = await sendTransaction(transaction, connection, {
+  //       minContextSlot,
+  //     });
+
+  //     await connection.confirmTransaction({
+  //       blockhash,
+  //       lastValidBlockHeight,
+  //       signature,
+  //     });
+  //     const response = await acceptBet(bet.id, publicKey, signature);
+  //     if (response.status === 403) {
+  //       setMessageApproved(false);
+  //       setOpenDialog(true);
+  //     }
+  //     setMessageApproved(true);
+  //     refetchGetBets();
+  //     await response.json();
+  //     toast({
+  //       title: "Successfully Accepted Bet!",
+  //     });
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   return (
     <>
